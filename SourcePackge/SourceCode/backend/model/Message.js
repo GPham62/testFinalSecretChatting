@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const Message = new Schema({
-    chatId: [{type: Schema.Types.ObjectId}],
+    chatid: {type: Schema.Types.ObjectId, required: true},
     author: [{type: Schema.Types.ObjectId, ref: 'User'}],
     body: {type: Schema.Types.Mixed, required: true}
 }, {
