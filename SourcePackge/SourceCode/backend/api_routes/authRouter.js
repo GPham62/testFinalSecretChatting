@@ -31,7 +31,7 @@ passport.use( new facebookStrategy({
 (req, accessToken, refreshToken, profile, done) => {
     // console.log("access token: ", accessToken);
     // console.log("refresh token: ", refreshToken);
-    // console.log("profile: ", profile);
+    console.log("profile: ", profile);
 
     userModel.findOne({
         facebookProvider:{
@@ -50,7 +50,7 @@ passport.use( new facebookStrategy({
             username: profile.displayName,
             email: profile._json.email,
             profile:{
-                avatar: profile._json.photos
+                avatar: profile._json.picture
             },
             facebookProvider:{
                 type: {
