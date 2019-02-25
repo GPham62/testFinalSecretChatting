@@ -37,7 +37,7 @@ chatRouter.get('/:chatid', (req, res) => {
 chatRouter.get('/:chatid/messages/all', (req, res) => {
     console.log(req.params.chatid)
     Message.find({chatid: req.params.chatid})
-            // .sort({created_at: -1})
+            .sort('-createdAt')
             .then(messages => {
                 res.send({messages})
             })
