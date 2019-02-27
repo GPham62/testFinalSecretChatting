@@ -1,7 +1,10 @@
 const express = require('express')
 const apiRouter = express.Router()
 
-apiRouter.use('/users', require('./userRouter'))
-apiRouter.use('/chats', require('./chatRouter'))
-
-module.exports = apiRouter
+module.exports = (io) => {
+    // console.log(require('./chatRouter')(io))
+    // console.log(require('./userRouter'))
+    apiRouter.use('/users', require('./userRouter'))
+    apiRouter.use('/chats', require('./chatRouter')(io))
+    return apiRouter
+}

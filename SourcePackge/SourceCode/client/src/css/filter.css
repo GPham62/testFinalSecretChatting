@@ -1,0 +1,78 @@
+/*------ CSS Use Case Example START ------*/
+
+/* import font ROBOTO */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+
+.card-info{
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin: 0 15px;
+    width: 375px;
+    height: 567px;
+    background-image: url("https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-1/48419229_2264961360455586_1717772844345065472_n.jpg?_nc_cat=110&_nc_oc=AQnnZ9x3nUR2im9DMteihkiO5mAh1950VGbQjuuPor3mqEwGsU_YraYLeMcMn9HtUM0&_nc_ht=scontent.fhan2-4.fna&oh=66098c4ef1ceafa51a3aa429e39badc7&oe=5D219749");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    margin: auto;
+    position: relative;
+    border: 1px solid aliceblue;
+    border-radius: 10px;
+}
+.my-name{   
+    position: absolute;  
+    bottom: 6%; 
+    left: 5%; 
+    font-family: cursive;
+}
+.address{
+  position:absolute;
+  bottom:0;
+  left:5%;
+  font-size: 14px;
+  font-family: cursive;
+}
+ 
+ /* global actions buttons*/
+.global-actions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    padding-top: 30px;
+    min-width: 200px;
+}
+ 
+ .top-action,
+ .right-action,
+ .left-action {
+     border-radius: 50%;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+   -webkit-box-align: center;
+       -ms-flex-align: center;
+           align-items: center;
+     -webkit-box-pack: center;
+         -ms-flex-pack: center;
+             justify-content: center;
+     background: #fff;
+   -webkit-box-shadow: 0 3px 4px 0px rgba(0,0,0,0.5);
+           box-shadow: 0 3px 4px 0px rgba(0,0,0,0.5);
+ }
+ .right-action,
+ .left-action {
+     width: 60px;
+     height: 60px;
+ }
+ 
+.top-action {
+    width: 40px;
+    height: 40px;
+    margin: 0 20px;
+}
+

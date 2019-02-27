@@ -1,1 +1,0 @@
-DAO (data access object) chứa tất cả các fucntion dùng để thao tác với database.
