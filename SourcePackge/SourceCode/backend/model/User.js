@@ -2,12 +2,12 @@
 const Schema = mongoose.Schema
 
 const User = new Schema({
-    username: {type: String, required: true, unique: true},
-    email: {type: String, required: true, unique: true},
+    username: {type: String},
+    email: {type: String},
     profile: {
         type: {
-            birthday: {type: Date, required: true},
-            gender: {type: String, required: true},
+            birthday: {type: Date},
+            gender: {type: String},
             address: {type: String},
             phone: {type: String},
             avatar: {type: String, default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}
