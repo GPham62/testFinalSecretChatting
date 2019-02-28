@@ -16,6 +16,8 @@ const chatReducer = (state = initialState, action) => {
             return {...state, allChats}
         case consts.CONNECTED_TO_SOCKET:
             return {...state, socket: action.payload}
+        case consts.CHATS_FETCHED:
+            return {...state, allChats: action.payload}
         default:
             return state
     }

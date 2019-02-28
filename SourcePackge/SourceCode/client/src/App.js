@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {connect} from 'react-redux'
 import openSocket from 'socket.io-client'
 
-import {connectedToSocket} from './redux/actionCreator'
+import {connectedToSocket, chatsFetched, requestChatsOfUser} from './redux/actionCreator'
 
 //import LoginScreen from './containers/LoginScreen';
 import Navbar from './components/navbar/Navbar';
@@ -19,6 +19,9 @@ class App extends Component {
   }
   componentWillMount() {
     this.props.dispatch(connectedToSocket(socket))
+  }
+  componentDidMount() {
+    this.props.dispatch(requestChatsOfUser('5c72d7a58fe4aa445029c67b'))
   }
   render() {
     return (
