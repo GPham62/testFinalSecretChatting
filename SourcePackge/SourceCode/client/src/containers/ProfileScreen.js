@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import '../css/profile.css'
 import FilterProfile from '../components/profile/FilterProfile';
 import InfoCard from '../components/profile/InfoCard';
 import EditProfie from '../components/profile/EditProfile';
+import ImagesGallery from '../components/profile/ImagesGallery';
 
 export default class ProfileScreen extends Component {
   render() {
@@ -9,7 +11,7 @@ export default class ProfileScreen extends Component {
       <div className="container mt-3">  
         <div className="row">
           <div className="col-4">
-            <FilterProfile/>
+            <ImagesGallery/>
           </div>
           <div className="col-4">
             <InfoCard/>
