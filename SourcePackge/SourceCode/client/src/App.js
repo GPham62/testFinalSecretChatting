@@ -7,7 +7,7 @@ import {connectedToSocket} from './redux/actionCreator'
 
 //import LoginScreen from './containers/LoginScreen';
 import Navbar from './components/navbar/Navbar';
-import SignIn from './components/signin/SignIn';
+
 
 const socketURL = 'http://localhost:5000'
 const socket = openSocket(socketURL)
@@ -25,7 +25,6 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar/>
-          <SignIn onLogin = {this.onLogin}/>
         </div>
       </Router>
     );

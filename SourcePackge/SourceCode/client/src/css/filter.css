@@ -7,7 +7,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
     margin: 0 15px;
-    width: 375px;
+    width: 100%;
     height: 567px;
     background-image: url("https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-1/48419229_2264961360455586_1717772844345065472_n.jpg?_nc_cat=110&_nc_oc=AQnnZ9x3nUR2im9DMteihkiO5mAh1950VGbQjuuPor3mqEwGsU_YraYLeMcMn9HtUM0&_nc_ht=scontent.fhan2-4.fna&oh=66098c4ef1ceafa51a3aa429e39badc7&oe=5D219749");
     background-size: cover;
@@ -75,4 +75,26 @@
     height: 40px;
     margin: 0 20px;
 }
-
+.list {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+  }
+  
+  .item {
+    -webkit-flex: 1 auto;
+    flex: 1 auto;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  .item a {
+    display: block;
+    background-color: #88D498;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    color: #fff;
+  }
+  

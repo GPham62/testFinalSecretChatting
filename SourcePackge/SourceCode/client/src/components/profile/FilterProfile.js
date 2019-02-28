@@ -22,13 +22,19 @@ export default class FilterProfile extends Component {
             </select>
           </div>
           <h5 className="mt-2">Sở thích</h5>
-          <div className="form-group">
-            <select className="form-control">
-              <option value="dabong">Đá bóng</option>
-              <option value="dacau">Đá cầu</option>
-              <option value="banbi">Bắn bi</option>
-            </select>
+          <div className="list">
+            <div className="item"><a href="#">Medieval music</a></div>
+            <div className="item"><a href="#">Renaissance music</a></div>
+            <div className="item"><a href="#">Baroque music</a></div>
+            <div className="item"><a href="#">Classical</a></div>
+            <div className="item"><a href="#">Romantic</a></div>
+            <div className="item"><a href="#">20th-century music</a></div>
+            <div className="item"><a href="#">Opera</a></div>
+            <div className="item"><a href="#">Folk</a></div>
+            <div className="item"><a href="#">Country music</a></div>
+            
           </div>
+
           <button type="submit" className="btn btn-primary">Lưu</button>    
         </div>
       </div>
