@@ -5,14 +5,20 @@ const Message = require('../model/Message')
 const Chat = require('../model/Chat')
 const User = require('../model/User')
 
+const chatController = require('../controller/chatController')
+
 module.exports = (io) => {
     chatRouter.get('/all', (req, res) => {
         // Get all chats
-        Chat.find({users: req.query.userid})
+        chatController
+            .getAllChatsOfUser(req.query.userid)
             .then(chats => {
-                res.send({chats})
+                res.send(chats)
             })
-            .catch(error => res.send({error}))
+            .catch(error => {
+                res.status(500).send(error)
+            })
+
         
     })
     chatRouter.post('/', (req, res) => {
