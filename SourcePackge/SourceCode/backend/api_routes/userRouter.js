@@ -44,8 +44,8 @@ userRouter.post('/', (req, res) => {
 	//const { username, password, avatar } = req.body;
 	//const salt = bcrypt.genSaltSync(12); 	//12 is typical  
 	//const hashPassword = bcrypt.hashSync(password,salt);
-    const { username, email, avatar, profile, interests } = req.body;
-    const newUsers = { username, email, avatar, profile, interests };
+    const { username, email, avatar, profile } = req.body;
+    const newUsers = { username, email, avatar, profile};
 	User.create(newUsers)
 		.then((userCreated) => {
 			res.send({ data: userCreated });
