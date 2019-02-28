@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const facebookStrategy = require('passport-facebook').Strategy;
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const userModel = require('../model/User');
 const authRouter = express.Router();
 
@@ -9,7 +9,6 @@ authRouter.use(passport.initialize());
 authRouter.use(passport.session());
 
 authRouter.get('/', (req, res) =>{
-    console.log(req.session)
     res.send('Auth success');
 })
 
@@ -17,59 +16,63 @@ authRouter.get('/fb', passport.authenticate('facebook'), (req, res, next) => {
 });
 
 authRouter.get('/fb/cb', passport.authenticate('facebook', {
-    failureRedirect: '/failure', successRedirect: 'http://localhost:3001/suggest', failureFlash:true
-}))
+    session: false, failureRedirect: '/failure',
+    //  successRedirect: 'http://localhost:3000/suggest'
+}), (req, res) => {
+    const token = req.user.jwtoken;
+    res.cookie('auth', token);
+    res.redirect("http://localhost:3000/")
+})
 
 
 passport.use( new facebookStrategy({
     clientID: "244906609795883",
     clientSecret: "1b52142fd5201bfd2c7ddc7162ebe5a2",
-    callbackURL: "http://localhost:3000/api/auth/fb/cb",
+    callbackURL: "http://localhost:5000/api/auth/fb/cb",
     profileFields: ['id','displayName','emails','photos'],
     passReqToCallback: true
 },
-(req, accessToken, refreshToken, profile, done) => {
+(req, accessToken, refreshToken, profile, cb) => {
     // console.log("access token: ", accessToken);
     // console.log("refresh token: ", refreshToken);
-    console.log("profile: ", profile);
-
-    userModel.findOne({
-        facebookProvider:{
-            type: {
-                id: profile.id
-            }
+    // console.log("profile: ", profile);
+    userModel.findOne({["facebookProvider.type.id"]: profile._json.id}, (err, foundUser) => {
+        if (err) return cb(err);
+        if (foundUser) {
+            foundUser.jwtoken = jwt.sign({facebook: foundUser.facebookProvider}, "jwtsecret");
+            console.log(foundUser.jwtoken);
+            foundUser.save((err) => {
+                if (err) throw err;
+                return cb(err, foundUser);
+            }) 
         }
-    }, (user, err) => {
-        if (err) return done(err);
-        if (user) {
-            console.log(user);
-            req.session.user = user;
-            return done(null, user);
-        }
-        userModel.create({
-            username: profile.displayName,
-            email: profile._json.email,
-            profile:{
-                avatar: profile._json.picture
-            },
-            facebookProvider:{
-                type: {
-                    id: profile.id,
-                    token: accessToken
+        else{
+            userModel.create({
+                username: profile.displayName,
+                email: profile._json.email,
+                profile:{
+                    avatar: profile._json.picture
+                },
+                facebookProvider:{
+                    type: {
+                        id: profile.id,
+                        token: accessToken
+                    }
                 }
-            }
-        })
+            })
         .then((newUser, err) =>{
-            console.log(newUser);
-            req.session.user = newUser;
-            return done(err, newUser);
+            newUser.jwtoken = jwt.sign({facebook: newUser.facebookProvider}, "jwtsecret");
+            newUser.save((err) => {
+                return cb(err, newUser);
+            })
         })
-        .catch((err) => {return done(err)});
-    })
+        .catch((err) => {return cb(err)});
+    }}
+    )
 }));
 
-passport.serializeUser((user, done) => {
-    done(null, user.id);
+passport.serializeUser((user, cb) => {
+    cb(null, user.id);
 })
 
 passport.deserializeUser((id, done) => {
