@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import MessageScreen from '../../containers/MessageScreen';
-import ProfileScreen from '../../containers/ProfileScreen';
-import SuggestScreen from '../../containers/SuggestScreen';
 export default class Navbar extends Component {
   render() {
     return (
@@ -33,10 +30,7 @@ export default class Navbar extends Component {
         <button className="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
       </div>
     </nav>
-      <Route exact path="/suggest" component={SuggestScreen} />
-      {/* <Route path="/" component={SuggestScreen} /> */}
-      <Route path="/chat" component={MessageScreen} />
-      <Route path="/my-profile" component={ProfileScreen} />
+      
       </div>
 
     )

@@ -6,6 +6,8 @@ import Message from './../components/chat/Message';
 import Navbar from '../components/navbar/Navbar';
 import Button from '../components/button/Button';
 import LikeFriend from '../components/chat/LikeFriend';
+
+import ChatRoom from '../components/chat/ChatRoom'
 export default class MessageScreen extends Component {
   constructor(props) {
     super(props);
@@ -71,14 +73,7 @@ export default class MessageScreen extends Component {
             
           </div>
           <div className="middle">
-            <div className="top"><span>To: <span className="name">Vu Lam</span></span></div>
-            <div className="chat active-chat">
-              <Message/>
-            </div>
-            <div className="write">
-              <input type="text" />
-              <a href="sss" className="write-link send" />
-            </div>
+            <ChatRoom currentChat={this.props.appState.chat.currentChat}/>
           </div>
           <div className="right">
             <ProfileFriend/>
