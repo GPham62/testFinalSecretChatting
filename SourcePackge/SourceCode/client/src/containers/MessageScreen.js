@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import '../css/chat.css'
 import ProfileFriend from '../components/chat/ProfileFriend';
-import MatchFriend from '../components/chat/MatchFriend';
+import ChatRoomInfo from '../components/chat/ChatRoomInfo';
+import MatchFriend from '../components/chat/MatchedUser';
 import Message from './../components/chat/Message';
 import Navbar from '../components/navbar/Navbar';
 import Button from '../components/button/Button';
 import LikeFriend from '../components/chat/LikeFriend';
+
+import {changeCurrentChatRoom, requestChatsOfUser} from '../redux/actionCreator'
 
 import ChatRoom from '../components/chat/ChatRoom'
 export default class MessageScreen extends Component {
@@ -15,15 +18,16 @@ export default class MessageScreen extends Component {
       display : 1
     }
   }
+
   displayMatchFriend=()=>{
-    return (
-      <li className="person active">
-            <img src="images/ava.jpg" alt="true" />
-            <span className="name">Vu Lam</span>
-            <span className="time">1:44 PM</span>
-            <span className="preview">I've forgotten how it felt before</span>
-        </li>
-    )
+    const {chat} = this.props.appState
+    if (chat.allChatIds) {
+      return chat.allChatIds.map((chatid) => {
+        console.log(chatid)
+        return (<ChatRoomInfo onChatRoomClick={() => this.handleChatRoomClick(chatid)} key={chatid} chat={chat.allChats[chatid]}/>)
+      })
+
+    } else return ''
   }
   displayLikeFriend = ()=>{
     return (
@@ -47,11 +51,27 @@ export default class MessageScreen extends Component {
   }
   displayFriend = ()=>{
     if (this.state.display===0) {
+      console.log('Display matched friends')
       return this.displayMatchFriend();
     } else {
       return this.displayLikeFriend();
     }
   }
+
+  handleChatRoomClick = (chatid) => {
+    const {socket} = this.props.appState.chat
+    console.log('chat room clicked', chatid)
+    socket.emit('join chat', chatid)
+    this.props.appState.dispatch(changeCurrentChatRoom(chatid))
+    
+  }
+
+  componentWillMount() {
+    this.props.appState.dispatch(requestChatsOfUser('5c796852beea8c47904ff776'))
+
+  }
+
+  
   render() {
     return (
         <div className="wrapper">
@@ -73,7 +93,7 @@ export default class MessageScreen extends Component {
             
           </div>
           <div className="middle">
-            <ChatRoom currentChat={this.props.appState.chat.currentChat}/>
+            <ChatRoom chat={this.props.appState.chat}/>
           </div>
           <div className="right">
             <ProfileFriend/>

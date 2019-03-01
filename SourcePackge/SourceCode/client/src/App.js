@@ -23,15 +23,15 @@ class App extends Component {
     this.props.dispatch(connectedToSocket(socket))
   }
   componentDidMount() {
-    this.props.dispatch(requestChatsOfUser('5c72d7a58fe4aa445029c67b'))
+    this.props.dispatch(requestChatsOfUser('5c796852beea8c47904ff776'))
   }
   render() {
     return (
       <Router>
         <div className="App">
           <Navbar/>
-          <Signin />
-          <Route exact path="/suggest" render={(props) => <SuggestScreen {...props} appState={this.props}/>}  />
+          <Route exact path="/" render={(props) => <Signin {...props} appState={this.props}/>}  />
+          <Route path="/suggest" render={(props) => <SuggestScreen {...props} appState={this.props}/>}  />
           <Route path="/chat" render={(props) => <MessageScreen {...props} appState={this.props} />} />
           <Route path="/my-profile" render={(props) => <ProfileScreen {...props} appState={this.props} />} />
         </div>

@@ -18,9 +18,14 @@ export const chatsFetched = (chats) => ({
     payload: chats
 })
 
-export const joinChatRoom = (chatid) => ({
-    type: consts.JOIN_CHATROOM,
+export const joinedChatRoom = (chatid) => ({
+    type: consts.JOINED_CHATROOM,
     payload: chatid
+})
+
+export const changeCurrentChatRoom = (chat) => ({
+    type: consts.CHANGE_CURRENT_CHATROOM,
+    payload: chat
 })
 
 export const messageFetched = (message) => ({

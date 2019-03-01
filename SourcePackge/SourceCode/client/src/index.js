@@ -13,12 +13,6 @@ import rootReducer from './redux/reducers'
 
 const store = createStore( rootReducer, applyMiddleware(thunk))
 
-
-
-const io = require('socket.io-client')
-const socket = io.connect('http://localhost:5000/')
-
-
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
