@@ -44,15 +44,23 @@ userRouter.post('/', (req, res) => {
 	//const { username, password, avatar } = req.body;
 	//const salt = bcrypt.genSaltSync(12); 	//12 is typical  
 	//const hashPassword = bcrypt.hashSync(password,salt);
-    const { username, email, avatar, profile } = req.body;
-    const newUsers = { username, email, avatar, profile};
-	User.create(newUsers)
-		.then((userCreated) => {
-			res.send({ data: userCreated });
-		})
-		.catch((error) => {
-			res.send({ error });
-		});
+    const { username, email, facebookProvider} = req.body;
+    const newUsers = { username, email, facebookProvider};
+    User.findOne({["facebookProvider.type.id"]: facebookProvider.type.id}, (err, userFound) =>{
+        if (err) console.log(err);
+        if (!userFound) {
+            User.create(newUsers)
+                .then((userCreated) => {
+                    res.send({ data: userCreated });
+                })
+                .catch((error) => {
+                    res.send({ error });
+                });
+        }
+        else res.send({data: userFound})
+
+    })
+	
 });
 
 //Update user

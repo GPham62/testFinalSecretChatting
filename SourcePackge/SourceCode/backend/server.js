@@ -9,6 +9,7 @@ const URL = process.env.MONGODB_URI || 'mongodb://localhost:27017/api-secret-cha
 const socketEvents = require('./socketio')
 
 const app = express()
+app.use(cors())
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
 
@@ -16,7 +17,6 @@ mongoose.connect(URL, {useNewUrlParser: true}, () => {
     console.log(`Connect to mongodb server at ${URL}`)
 })
 
-app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/api', require('./api_routes')(io))
