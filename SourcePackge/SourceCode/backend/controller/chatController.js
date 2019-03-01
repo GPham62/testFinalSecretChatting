@@ -5,7 +5,11 @@ const User = require('../model/User')
 module.exports = {
     getAllChatsOfUser(userid) {
         return new Promise((resolve, reject) => {
-            Chat.find({users: userid})        
+            Chat.find({users: userid})   
+                .populate({
+                    path: 'users',
+                    match: {_id: {$ne: userid}}
+                })     
                 .then(chats => {
                     resolve(chats)
                 })
