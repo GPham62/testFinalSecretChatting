@@ -8,8 +8,11 @@ apiRouter.use(cors());
 //     resave: false,
 //     saveUninitialized: false
 // }))
-apiRouter.use('/users', require('./userRouter'))
-apiRouter.use('/chats', require('./chatRouter'))
-apiRouter.use('/auth', require('./authRouter'))
 
-module.exports = apiRouter
+// NEED TO EXPORT A FUNCTION TO INCLUDE SOCKET IO INSTANCE
+module.exports = (io) => { 
+    apiRouter.use('/users', require('./userRouter'))
+    apiRouter.use('/auth', require('./authRouter'))
+    apiRouter.use('/chats', require('./chatRouter')(io))
+    return apiRouter
+}
