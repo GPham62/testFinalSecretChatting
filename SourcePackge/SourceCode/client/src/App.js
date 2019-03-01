@@ -7,6 +7,7 @@ import {connectedToSocket, chatsFetched, requestChatsOfUser} from './redux/actio
 
 //import LoginScreen from './containers/LoginScreen';
 import Navbar from './components/navbar/Navbar';
+import Signin from './components/signin/SignIn';
 
 
 const socketURL = 'http://localhost:5000'
@@ -14,9 +15,7 @@ const socket = openSocket(socketURL)
 
 
 class App extends Component {
-  onLogin = () => {
-    window.location.href="http://localhost:5000/api/auth/fb";
-  }
+  
   componentWillMount() {
     this.props.dispatch(connectedToSocket(socket))
   }
@@ -28,6 +27,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar/>
+          <Signin />
         </div>
       </Router>
     );
