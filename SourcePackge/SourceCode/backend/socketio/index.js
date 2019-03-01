@@ -3,6 +3,7 @@ const chatController = require('../controller/chatController')
 module.exports = (io) => {
     io.on('connection', (socket) => {
         socket.on('join chat', (chatid) => {
+            console.log('Join chat ', chatid)
             chatController
                 .getSingleChat(chatid)
                 .then(chat => {
