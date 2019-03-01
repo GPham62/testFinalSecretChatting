@@ -2,6 +2,7 @@ const express = require('express')
 const apiRouter = express.Router()
 const cors = require('cors')
 
+
 apiRouter.use(cors());
 // apiRouter.use(session({
 //     secret: "secret",
@@ -9,7 +10,9 @@ apiRouter.use(cors());
 //     saveUninitialized: false
 // }))
 apiRouter.use('/users', require('./userRouter'))
-apiRouter.use('/chats', require('./chatRouter'))
 apiRouter.use('/auth', require('./authRouter'))
 
-module.exports = apiRouter
+module.exports = (io)=> {
+    apiRouter.use('/chats', require('./chatRouter')(io))
+    return apiRouter
+}
