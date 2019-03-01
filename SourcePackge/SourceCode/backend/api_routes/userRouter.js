@@ -44,10 +44,9 @@ userRouter.post('/', (req, res) => {
 	//const { username, password, avatar } = req.body;
 	//const salt = bcrypt.genSaltSync(12); 	//12 is typical  
 	//const hashPassword = bcrypt.hashSync(password,salt);
-    const { username, email, facebookProvider} = req.body;
-    const newUsers = { username, email, facebookProvider};
+    const { username, email, avatar, facebookProvider} = req.body;
+    const newUsers = { username, email, profile:{type:{avatar: avatar}}, facebookProvider};
     User.findOne({["facebookProvider.type.id"]: facebookProvider.type.id}, (err, userFound) =>{
-        if (err) console.log(err);
         if (!userFound) {
             User.create(newUsers)
                 .then((userCreated) => {

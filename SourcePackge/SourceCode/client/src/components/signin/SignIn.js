@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import FacebookLogin from 'react-facebook-login'
+import jwt from 'jsonwebtoken'
+import localStorage from 'local-storage'
 
 // import '../../css/signin.css'
 export default class SignIn extends Component {
@@ -14,6 +16,7 @@ export default class SignIn extends Component {
     axios.post('http://localhost:5000/api/users/',{
       username: response.name,
       email: response.email,
+      avatar: response.picture.data.url,
       facebookProvider:{
         type:{
           id: response.id,
@@ -22,8 +25,11 @@ export default class SignIn extends Component {
       }
     })
       .then((user, err) => {
-        return axios.get('http://localhost:5000/api/auth')
+        const token = jwt.sign(user.data, process.env.REACT_APP_JWTSECRET);
+        localStorage.set("auth jwt", token);
+        return axios.get("http://localhost:5000/api/auth/")
       })
+      .then(response => console.log(response))
       .catch(err => console.log(err));
   }
   render(){
