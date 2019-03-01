@@ -3,7 +3,8 @@ import consts from '../actionConstants'
 const initialState = {
     allChats: [],
     currentChat: {},
-    socket: null
+    socket: null,
+    currentMessages: []
 }
 
 const chatReducer = (state = initialState, action) => {
