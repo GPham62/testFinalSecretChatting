@@ -4,15 +4,13 @@ const Schema = mongoose.Schema
 const User = new Schema({
     username: {type: String},
     email: {type: String},
-    profile: {
-        type: {
-            birthday: {type: Date},
-            gender: {type: String},
-            address: {type: String},
-            phone: {type: String},
-            avatar: {type: String, default: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}
-        }
-    },
+    profile: new Schema({
+        birthday: {type: Date},
+        gender: {type: String},
+        address: {type: String},
+        phone: {type: String},
+        avatar: {type: String, default: () => 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}
+    }, {_id: false}),
     facebookProvider: {
         type: {
             id: String,
