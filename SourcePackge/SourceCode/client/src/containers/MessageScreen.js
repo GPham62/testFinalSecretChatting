@@ -23,7 +23,6 @@ export default class MessageScreen extends Component {
     const {chat} = this.props.appState
     if (chat.allChatIds) {
       return chat.allChatIds.map((chatid) => {
-        console.log(chatid)
         return (<ChatRoomInfo onChatRoomClick={() => this.handleChatRoomClick(chatid)} key={chatid} chat={chat.allChats[chatid]}/>)
       })
 
@@ -66,8 +65,11 @@ export default class MessageScreen extends Component {
     
   }
 
-  componentWillMount() {
-    this.props.appState.dispatch(requestChatsOfUser('5c796852beea8c47904ff776'))
+  componentDidUpdate() {
+    const store = this.props.appState
+    if (store.user.currentUser && store.chat.allChatIds.length === 0) {
+      store.dispatch(requestChatsOfUser(store.user.currentUser._id))
+    }
 
   }
 
@@ -93,7 +95,7 @@ export default class MessageScreen extends Component {
             
           </div>
           <div className="middle">
-            <ChatRoom chat={this.props.appState.chat}/>
+            <ChatRoom chat={this.props.appState.chat} user={this.props.appState.user} dispatch={this.props.appState.dispatch}/>
           </div>
           <div className="right">
             <ProfileFriend/>

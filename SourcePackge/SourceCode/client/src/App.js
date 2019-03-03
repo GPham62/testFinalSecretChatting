@@ -22,15 +22,13 @@ class App extends Component {
   componentWillMount() {
     this.props.dispatch(connectedToSocket(socket))
   }
-  componentDidMount() {
-    this.props.dispatch(requestChatsOfUser('5c796852beea8c47904ff776'))
-  }
+  
   render() {
     return (
       <Router>
         <div className="App">
           <Navbar/>
-          <Route exact path="/" render={(props) => <Signin {...props} appState={this.props}/>}  />
+          <Route exact path="/" render={(props) => <Signin {...props} apiUrl={socketURL} appState={this.props}/>}  />
           <Route path="/suggest" render={(props) => <SuggestScreen {...props} appState={this.props}/>}  />
           <Route path="/chat" render={(props) => <MessageScreen {...props} appState={this.props} />} />
           <Route path="/my-profile" render={(props) => <ProfileScreen {...props} appState={this.props} />} />
@@ -41,7 +39,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  chat: state.chatReducer
+  chat: state.chatReducer,
+  user: state.userReducer
 })
 
 

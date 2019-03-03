@@ -18,6 +18,10 @@ export const chatsFetched = (chats) => ({
     payload: chats
 })
 
+export const messagesFetched = (data) => ({
+    type: consts.MESSAGES_FETCHED,
+    payload: data
+})
 export const joinedChatRoom = (chatid) => ({
     type: consts.JOINED_CHATROOM,
     payload: chatid
@@ -28,9 +32,9 @@ export const changeCurrentChatRoom = (chat) => ({
     payload: chat
 })
 
-export const messageFetched = (message) => ({
+export const messageFetched = (data) => ({
     type: consts.MESSAGE_FETCHED,
-    payload: message
+    payload: data
 })
 
 export const connectedToSocket = (socket) => ({
@@ -45,4 +49,29 @@ export const requestChatsOfUser = (userid) => (dispatch, getState) => {
             dispatch(chatsFetched(chats.data))
         })
 
+}
+
+export const requestMessagesOfChat = (chatid, userid) => (dispatch, getState) => {
+    axios
+        .get(apiURL+`/chats/${chatid}/messages`)
+        .then(results => {
+            console.log('messages fetched', results)
+            const {allChats, allMessages} = getState().chatReducer
+            if (results.data.messages.length === 0) {
+                console.log('No messages found')
+                dispatch(messagesFetched({chatid, messages: [], allChats, allMessages}))
+            } else {
+                dispatch(messagesFetched({chatid, messages: results.data.messages, allChats, allMessages}))
+            }
+        })
+        .catch(error => {
+            console.log('Error', error)
+        })
+
+}
+
+export const messageFetchedFunc = (message) => (dispatch, getState) => {
+    const {allChats, allMessages, currentChatId} = getState().chatReducer
+    console.log('Calling messageFetched action')
+    dispatch(messageFetched({allChats, allMessages, currentChatId, message}))
 }

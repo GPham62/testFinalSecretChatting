@@ -4,6 +4,8 @@ import FacebookLogin from 'react-facebook-login'
 import jwt from 'jsonwebtoken'
 import localStorage from 'local-storage'
 
+import {addNewUser} from '../../redux/actionCreator'
+
 // import '../../css/signin.css'
 export default class SignIn extends Component {
   constructor(props){
@@ -13,7 +15,7 @@ export default class SignIn extends Component {
   responseFacebook = (response) => {
     console.log(response);
 
-    axios.post('http://localhost:5000/api/users/',{
+    axios.post(`${this.props.apiUrl}/api/users/`,{
       username: response.name,
       email: response.email,
       avatar: response.picture.data.url,
@@ -27,7 +29,8 @@ export default class SignIn extends Component {
       .then((user, err) => {
         const token = jwt.sign(user.data, process.env.REACT_APP_JWTSECRET);
         localStorage.set("auth jwt", token);
-        return axios.get("http://localhost:5000/api/auth/")
+        this.props.appState.dispatch(addNewUser(user.data.data))
+        return axios.get(`${this.props.apiUrl}/api/auth/`)
       })
       .then(response => console.log(response))
       .catch(err => console.log(err));
