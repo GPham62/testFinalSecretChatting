@@ -41,14 +41,19 @@ module.exports = (io) => {
             })
             .catch(error => res.send({error}))
     })
-    chatRouter.get('/:chatid/messages/all', (req, res) => {
+    chatRouter.get('/:chatid/messages/', (req, res) => {
         console.log(req.params.chatid)
-        Message.find({chatid: req.params.chatid})
-                .sort('-createdAt')
-                .then(messages => {
-                    res.send({messages})
-                })
-                .catch(error => res.send({error}))
+        const numOfMessages = req.query.num ? req.query.num : undefined
+        chatController
+            .getMessages(req.params.chatid, numOfMessages)
+            .then(messages => {
+                res.send({messages})
+            })
+            .catch(error => {
+                console.log('Error', error)
+                res.status(503).send({error})
+            })
+
     })
     chatRouter.post('/:chatid/messages/', (req, res) => {
         const {author, body} = req.body

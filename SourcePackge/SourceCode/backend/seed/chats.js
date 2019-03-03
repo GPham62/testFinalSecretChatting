@@ -7,8 +7,16 @@ const chats = [
         name: 'I felt so incredibly tired'
     },
     {
-        users: ['5c796852beea8c47904ff77a', '5c796852beea8c47904ff778'],
-        name: 'Alan Walker\'s fans'
+        users: ['5c796b2795202b2ad83d51b7', '5c796852beea8c47904ff778'],
+        name: "I'm so tired"
+    },
+    {
+        users: ['5c796b2795202b2ad83d51b7', '5c796852beea8c47904ff778'],
+        name: "I'm so hungry"
+    },
+    {
+        users: ['5c796b2795202b2ad83d51b7', '5c796852beea8c47904ff776'],
+        name: "I'm so thirsty"
     }
 ]
 

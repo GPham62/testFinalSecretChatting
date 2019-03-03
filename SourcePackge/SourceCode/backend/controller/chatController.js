@@ -35,15 +35,15 @@ module.exports = {
         })
     },
     createNewMessage({author, body, chatid}) {
-        return new Promise((rsolve, reject) => {
+        return new Promise((resolve, reject) => {
             const newMessage = new Message({author, body, chatid})
             newMessage.save((error, message) => {
-                if (error) res.send({error})
-                else res.send({message})
+                if (error) reject(error)
+                else resolve(message)
             })
         })
     }, 
-    getMessages ({chatid, numOfMessages}) {
+    getMessages (chatid, numOfMessages=10) {
         return new Promise((resolve, reject) => {
             Message.find({chatid})
                 .sort('-createdAt')
