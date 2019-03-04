@@ -8,6 +8,8 @@ import Navbar from '../components/navbar/Navbar';
 import Button from '../components/button/Button';
 import LikeFriend from '../components/chat/LikeFriend';
 
+import CreateChatModal from '../components/chat/CreateChatModal'
+
 import {changeCurrentChatRoom, requestChatsOfUser, requestUserList} from '../redux/actionCreator'
 
 import ChatRoom from '../components/chat/ChatRoom'
@@ -23,7 +25,7 @@ export default class MessageScreen extends Component {
     const {chat} = this.props.appState
     if (chat.allChatIds) {
       return chat.allChatIds.map((chatid) => {
-        return (<ChatRoomInfo onChatRoomClick={() => this.handleChatRoomClick(chatid)} key={chatid} chat={chat.allChats[chatid]}/>)
+        return (<ChatRoomInfo onChatRoomClick={() => this.handleChatRoomClick(chatid)} key={chatid} user={this.props.appState.user} chat={chat.allChats[chatid]}/>)
       })
 
     } else return ''
@@ -68,9 +70,11 @@ export default class MessageScreen extends Component {
   componentDidUpdate() {
     const store = this.props.appState
     if (store.user.currentUser && !store.chat.allChatIds) {
+      console.log(!!store.user.currentUser, !store.chat.allChatIds,'No ids fetched yet. Fetching...')
       store.dispatch(requestChatsOfUser(store.user.currentUser._id))
     }
     if (store.user.currentUser && !store.user.connectedUsers) {
+      console.log(!!store.user.currentUser, !store.user.connectedUsers, 'No connected users fetched yet. Fetching...')
       store.dispatch(requestUserList(store.user.currentUser._id))
     }
 
@@ -82,6 +86,7 @@ export default class MessageScreen extends Component {
     return (
         <div className="wrapper">
         <div className="container-chat">
+          <CreateChatModal appState={this.props.appState}/>
           <div className="left">
             <div className="top">
               {/* <Button name="Yêu thích" click={this.likeClick()} />

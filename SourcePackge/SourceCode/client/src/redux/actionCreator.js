@@ -8,9 +8,9 @@ export const addNewUser = (user) => ({
     payload: user
 })
 
-export const newChatFetched = (chat) => ({
-    type: consts.CHAT_FETCHED,
-    payload: chat
+export const newChatFetched = (data) => ({
+    type: consts.chat.NEW_CHAT_FETCHED,
+    payload: data
 })
 
 export const chatsFetched = (chats) => ({
@@ -117,6 +117,20 @@ export const authenticateFacebook = (fbToken) => (dispatch, getState) => {
         .catch(error => {
             console.log(error)
         })
+}
+
+export const createNewChat = (chat) => (dispatch, getState) => {
+    chat.users.push(getState().userReducer.currentUser._id)
+    console.log(chat)
+    axios
+        .post(apiURL+ `/chats/`, chat)
+        .then(result => {
+            if (result.data) {
+                const {allChatIds, allChats} = getState().chatReducer
+                dispatch(newChatFetched({chat: result.data.chat, allChatIds, allChats}))
+            }
+        })
+        .catch(error => console.log(error))
 }
 
 export const messageFetchedFunc = (message) => (dispatch, getState) => {

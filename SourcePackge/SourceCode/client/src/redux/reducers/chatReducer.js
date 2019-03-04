@@ -24,6 +24,13 @@ const chatReducer = (state = initialState, action) => {
                 allChats[chat._id] = chat
             })
             return {...state, allChatIds, allChats}
+        case consts.chat.NEW_CHAT_FETCHED:
+            allChatIds = action.payload.allChatIds
+            allChats = action.payload.allChats
+            const id = action.payload.chat._id
+            allChatIds.push(id)
+            allChats[id] = action.payload.chat
+            return {...state, allChatIds, allChats}
         case consts.CHANGE_CURRENT_CHATROOM:
             return {...state, currentChatId: action.payload}
         case consts.MESSAGES_FETCHED:
