@@ -25,9 +25,9 @@ module.exports = {
                 .catch(error => reject(error))
         })
     },
-    createNewChat({name, users}) {
-        return new Promise((resolve, reg=ject) => {
-            const newChat = new Chat({name, users})
+    createNewChat(chatdata) {
+        return new Promise((resolve, reject) => {
+            const newChat = new Chat(chatdata)
             newChat.save(function(error, result) {
                 if (error) reject(error)
                 else resolve(result)

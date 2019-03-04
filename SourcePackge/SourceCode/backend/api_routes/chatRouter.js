@@ -23,12 +23,13 @@ module.exports = (io) => {
     })
     chatRouter.post('/', (req, res) => {
         // Create new chat room
-        const {name, users} = req.body
-        const newChat = new Chat({name, users})
-        newChat.save(function(error, result) {
-            if (error) res.send({error})
-            else res.send(result)
-        })
+        const {name, users, description, common_interests} = req.body
+        chatController
+            .createNewChat({name, users, description, common_interests})
+            .then(chat => {
+                res.send({chat})
+            })
+            .catch(error => res.status(500).send({error}))
     })
     chatRouter.get('/:chatid', (req, res) => {
         // Find chat information
@@ -55,15 +56,15 @@ module.exports = (io) => {
             })
 
     })
-    chatRouter.post('/:chatid/messages/', (req, res) => {
-        const {author, body} = req.body
-        const {chatid} = req.params
-        const newMessage = new Message({author, body, chatid})
-        newMessage.save((error, message) => {
-            if (error) res.send({error})
-            else res.send({message})
-        })
+    // chatRouter.post('/:chatid/messages/', (req, res) => {
+    //     const {author, body} = req.body
+    //     const {chatid} = req.params
+    //     const newMessage = new Message({author, body, chatid})
+    //     newMessage.save((error, message) => {
+    //         if (error) res.send({error})
+    //         else res.send({message})
+    //     })
     
-    })
+    // })
     return chatRouter
 }

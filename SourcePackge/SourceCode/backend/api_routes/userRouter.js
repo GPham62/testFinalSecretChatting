@@ -42,28 +42,28 @@ userRouter.get('/user/:userId', (req, res) => {
 })
 
 // Create new user
-userRouter.post('/', (req, res) => {
-    /*comment password field if use facebook API*/
-	//const { username, password, avatar } = req.body;
-	//const salt = bcrypt.genSaltSync(12); 	//12 is typical  
-	//const hashPassword = bcrypt.hashSync(password,salt);
-    const { username, email, avatar, facebookProvider} = req.body;
-    const newUsers = { username, email, profile:{type:{avatar: avatar}}, facebookProvider};
-    User.findOne({["facebookProvider.type.id"]: facebookProvider.type.id}, (err, userFound) =>{
-        if (!userFound) {
-            User.create(newUsers)
-                .then((userCreated) => {
-                    res.send({ data: userCreated });
-                })
-                .catch((error) => {
-                    res.send({ error });
-                });
-        }
-        else res.send({data: userFound})
+// userRouter.post('/', (req, res) => {
+//     /*comment password field if use facebook API*/
+// 	//const { username, password, avatar } = req.body;
+// 	//const salt = bcrypt.genSaltSync(12); 	//12 is typical  
+// 	//const hashPassword = bcrypt.hashSync(password,salt);
+//     const { username, email, avatar, facebookProvider} = req.body;
+//     const newUsers = { username, email, profile:{type:{avatar: avatar}}, facebookProvider};
+//     User.findOne({"facebookProvider.id": facebookProvider.id}, (err, userFound) =>{
+//         if (!userFound) {
+//             User.create(newUsers)
+//                 .then((userCreated) => {
+//                     res.send({ data: userCreated });
+//                 })
+//                 .catch((error) => {
+//                     res.send({ error });
+//                 });
+//         }
+//         else res.send({data: userFound})
 
-    })
+//     })
 	
-});
+// });
 
 //Update user
 userRouter.put('/:userId', (req, res) => {
