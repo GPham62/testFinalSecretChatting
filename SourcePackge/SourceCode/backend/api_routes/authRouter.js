@@ -1,16 +1,35 @@
 const express = require('express');
-// const passport = require('passport');
-// const facebookStrategy = require('passport-facebook').Strategy;
+const passport = require('passport');
+const FacebookTokenStrategy = require('passport-facebook-token');
 const jwt = require('jsonwebtoken');
 const userModel = require('../model/User');
 const authRouter = express.Router();
 const localStorage = require('local-storage');
 
+const userController = require('../controller/userController')
 // authRouter.use(passport.initialize());
 // authRouter.use(passport.session());
 
 authRouter.get('/', (req, res) =>{
     res.send('Auth success');
+})
+authRouter.post('/facebook', passport.authenticate('facebook-token', {session: false}), (req, res) => {
+    if (typeof req.user === 'undefined') {
+        res.status(401).send('User not authenticated')
+    } else {
+        const token = jwt.sign(req.user.toJSON(), process.env.JWT_SECRET_KEY)
+        res.send({token, user: req.user})
+    }
+
+})
+authRouter.post('/verify', (req, res) => {
+    const {token} = req.body
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (error, decoded) => {
+        if (error) res.send({error})
+        else {
+            res.send({user: decoded})
+        }
+    })
 })
 
 // authRouter.get('/fb', passport.authenticate('facebook'), (req, res, next) => {
@@ -26,7 +45,38 @@ authRouter.get('/', (req, res) =>{
 //     res.redirect("http://localhost:3000/")
 // })
 
+passport.use(new FacebookTokenStrategy({
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    profileFields: ['id', 'displayName', 'name', 'gender', 'profileUrl', 'emails', 'picture.type(large)']
+}, function(accessToken, refreshToken, profile, cb) {
+    userController
+        .getUserByFacebookId(profile.id)
+        .then(user => {
+            if (!user) {
+                console.log('No user found. Creating new user...')
+                const newUser = {
+                    username: profile.displayName,
+                    email: profile.emails[0].value,
+                    profile: {
+                        avatar: profile._json.picture.data.url
+                    },
+                    facebookProvider: {
+                        id: profile.id,
+                        token: accessToken
+                    }
+                }
+                userController.createNewUser(newUser)
+                                .then(newUser => cb(null, newUser))
+            }
+            else {
+                cb(null, user)
+            }
+        })
+        
+        .catch(error => cb(error, null))
 
+}))
 // passport.use( new facebookStrategy({
 //     clientID: "244906609795883",
 //     clientSecret: "1b52142fd5201bfd2c7ddc7162ebe5a2",

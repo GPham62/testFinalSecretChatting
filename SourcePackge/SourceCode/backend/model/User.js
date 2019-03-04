@@ -15,7 +15,7 @@ const User = new Schema({
         type: {
             id: String,
             token: String
-        },
+        }, 
         select: false
     },
     interests: [{type: Schema.Types.ObjectId, ref: 'Interest'}]
