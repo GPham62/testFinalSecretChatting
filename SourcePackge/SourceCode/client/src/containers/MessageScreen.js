@@ -8,7 +8,7 @@ import Navbar from '../components/navbar/Navbar';
 import Button from '../components/button/Button';
 import LikeFriend from '../components/chat/LikeFriend';
 
-import {changeCurrentChatRoom, requestChatsOfUser} from '../redux/actionCreator'
+import {changeCurrentChatRoom, requestChatsOfUser, requestUserList} from '../redux/actionCreator'
 
 import ChatRoom from '../components/chat/ChatRoom'
 export default class MessageScreen extends Component {
@@ -70,8 +70,12 @@ export default class MessageScreen extends Component {
     if (store.user.currentUser && !store.chat.allChatIds) {
       store.dispatch(requestChatsOfUser(store.user.currentUser._id))
     }
+    if (store.user.currentUser && !store.user.connectedUsers) {
+      store.dispatch(requestUserList(store.user.currentUser._id))
+    }
 
   }
+
 
   
   render() {

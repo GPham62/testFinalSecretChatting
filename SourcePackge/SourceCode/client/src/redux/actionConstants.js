@@ -12,6 +12,9 @@ const consts = {
     CHANGE_CURRENT_CHATROOM: 'CHANGE_CURRENT_CHATROOM',
     auth: {
         REMOVE_USER: 'REMOVE_USER'
+    },
+    chat: {
+        USERS_LIST_FETCHED: 'USERS_LIST_FETCHED'
     }
 }
 

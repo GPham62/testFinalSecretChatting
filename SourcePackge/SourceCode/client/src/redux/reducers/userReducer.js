@@ -2,7 +2,8 @@ import consts from '../actionConstants'
 
 const initialState = {
     currentUser: null,
-    isAuthenticated: false
+    isAuthenticated: false,
+    connectedUsers: null
 }
 
 export default (state=initialState, action) => {
@@ -11,6 +12,8 @@ export default (state=initialState, action) => {
             return {...state, currentUser: action.payload}
         case consts.auth.REMOVE_USER:
             return {...state, currentUser: null}
+        case consts.chat.USERS_LIST_FETCHED:
+            return {...state, connectedUsers: action.payload}
         default:
             return state
     }

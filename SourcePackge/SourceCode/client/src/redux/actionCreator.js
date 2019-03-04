@@ -46,6 +46,11 @@ export const removeUser = () => ({
     type: consts.auth.REMOVE_USER
 })
 
+export const userListFetched = (users) => ({
+    type: consts.chat.USERS_LIST_FETCHED,
+    payload: users
+})
+
 export const requestChatsOfUser = (userid) => (dispatch, getState) => {
     axios.get(apiURL+ `/chats/all?userid=${userid}`, userid)
         .then(chats => {
@@ -72,6 +77,20 @@ export const requestMessagesOfChat = (chatid, userid) => (dispatch, getState) =>
             console.log('Error', error)
         })
 
+}
+
+export const requestUserList = (currentUserId) => (dispatch, getState) => {
+    axios
+        .get(apiURL+`/users?except=${currentUserId}`)
+        .then(result => {
+            if (result.data) {
+                const {users} = result.data
+                dispatch(userListFetched(users))
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
 }
 
 export const verifyUserJwt = (token) => (dispatch, getState) => {
