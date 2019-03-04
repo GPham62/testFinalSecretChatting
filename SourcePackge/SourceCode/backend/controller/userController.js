@@ -30,5 +30,23 @@ module.exports = {
                 })
                 .catch(error => reject(error))
         })
+    },
+    getAllUsers(exceptUserId) {
+        return new Promise((resolve, reject) => {
+            if (exceptUserId.match(/^[0-9a-fA-F]{24}$/)) {
+                User.find({_id: {$ne: exceptUserId}})
+                    .then(users => {
+                        resolve(users)
+                    })
+                    .catch(error => reject(error))
+            }
+            else {
+                User.find({})
+                    .then(users => {
+                        resolve(users)
+                    })
+                    .catch(error => reject(error))
+            }
+        })
     }
 }

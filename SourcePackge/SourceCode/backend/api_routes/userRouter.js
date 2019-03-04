@@ -2,15 +2,18 @@ const express = require('express')
 const userRouter = express.Router()
 const User = require('../model/User')
 
+const userController = require('../controller/userController')
+
 // Get all users
 userRouter.get('/', (req, res) => {
-    User.find({})
-    .then((users) => {
-        res.send({ data: users });
-    })
-    .catch((error) => {
-        res.send({ error });
-    });
+    const exceptUserId = req.query.except ? req.query.except : ''
+    userController
+        .getAllUsers(exceptUserId)
+        .then(users => {
+            res.send({users})
+        })
+        .catch(error => res.status(500).send({error}))
+
 })
 
 //Get random user
