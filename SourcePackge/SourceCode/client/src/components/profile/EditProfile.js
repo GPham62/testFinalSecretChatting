@@ -33,10 +33,10 @@ export default class EditProfile extends Component {
             <div class="form-group">  
                   <label>Sở thích</label>
                   <div class="list">
-                          <div class="item"><a href="#">Medieval music</a></div>
-                          <div class="item"><a href="#">Renaissance music</a></div>
-                          <div class="item"><a href="#">Baroque music</a></div>
-                          <div class="item"><a href="#">Classical</a></div>
+                          <div className="item"><a href="#">Medieval music</a></div>
+                          <div className="item"><a href="#">Renaissance music</a></div>
+                          <div className="item"><a href="#">Baroque music</a></div>
+                          <div className="item"><a href="#">Classical</a></div>
                         </div>
               </div>
             <button type="submit" className="btn btn-primary">Lưu</button>    

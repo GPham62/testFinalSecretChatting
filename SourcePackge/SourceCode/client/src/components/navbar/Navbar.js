@@ -1,6 +1,24 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+import {removeUser} from '../../redux/actionCreator'
 export default class Navbar extends Component {
+  renderNavs = () => {
+    return this.props.nav.map(navItem => {
+      return (<li key={navItem.name} className="nav-item">
+        <Link className="nav-link" to={navItem.path}>{navItem.name}</Link>
+      </li>)
+    })
+  }
+  renderAuthButton = () => {
+    return this.props.isAuthenticated() ? 
+      (<button onClick={this.handleAuthclick} className="btn btn-outline-danger my-2 my-sm-0">Log out</button>) :
+      ''
+  }
+  handleAuthclick = () => {
+    localStorage.removeItem('auth jwt')
+    this.props.appState.dispatch(removeUser())
+  }
   render() {
     return (
       <div>
@@ -10,24 +28,11 @@ export default class Navbar extends Component {
         <div className="collapse navbar-collapse" id="collapsibleNavId">
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0 m-auto">
             
-            <li className="nav-item">
-              {/* <a className="nav-link" href="#">Suitable person</a> */}
-                <Link className="nav-link" to="/suggest">Suitable Person</Link>
-            </li>
-            <li className="nav-item">
-                <Link  className="nav-link"  to="/chat">Chat</Link>
-
-              {/* <a className="nav-link" href="#">Chat</a> */}
-              
-            </li>
-            <li className="nav-item">
-              {/* <a className="nav-link" href="#">My profile</a> */}
-              <Link className="nav-link" to="/my-profile">My Profile</Link>
-            </li>
+            {this.renderNavs()}
           </ul>
       </div>
       <div className="my-2 my-lg-0">
-        <button className="btn btn-outline-danger my-2 my-sm-0" type="submit">Log out</button>
+        {this.renderAuthButton()}
       </div>
     </nav>
       

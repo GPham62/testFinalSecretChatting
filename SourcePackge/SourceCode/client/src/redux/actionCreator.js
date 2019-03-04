@@ -42,6 +42,10 @@ export const connectedToSocket = (socket) => ({
     payload: socket
 })
 
+export const removeUser = () => ({
+    type: consts.auth.REMOVE_USER
+})
+
 export const requestChatsOfUser = (userid) => (dispatch, getState) => {
     axios.get(apiURL+ `/chats/all?userid=${userid}`, userid)
         .then(chats => {
@@ -70,8 +74,34 @@ export const requestMessagesOfChat = (chatid, userid) => (dispatch, getState) =>
 
 }
 
+export const verifyUserJwt = (token) => (dispatch, getState) => {
+    axios  
+        .post(apiURL+'/auth/verify', {token})
+        .then(result => {
+            console.log(result.data)
+            if (result.data.user) {
+                dispatch(addNewUser(result.data.user))
+            }
+        })
+}
+
+export const authenticateFacebook = (fbToken) => (dispatch, getState) => {
+    axios
+        .post(apiURL+`/auth/facebook?access_token=${fbToken}`)
+        .then(result => {
+            if (result.data.token) {
+                const {token, user} = result.data
+                localStorage.setItem('auth jwt', token)
+                dispatch(addNewUser(user))
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
 export const messageFetchedFunc = (message) => (dispatch, getState) => {
-    const {allChats, allMessages, currentChatId} = getState().chatReducer
+    const {allChats, allMessages} = getState().chatReducer
     console.log('Calling messageFetched action')
-    dispatch(messageFetched({allChats, allMessages, currentChatId, message}))
+    dispatch(messageFetched({allChats, allMessages, message}))
 }

@@ -1,7 +1,7 @@
 import consts from '../actionConstants'
 
 const initialState = {
-    allChatIds: [],
+    allChatIds: null,
     allChats: {},
     allUsers: {},
     allMessages: {},
@@ -40,11 +40,10 @@ const chatReducer = (state = initialState, action) => {
         case consts.MESSAGE_FETCHED: 
             allChats = action.payload.allChats
             allMessages = action.payload.allMessages
-            currentChatId = action.payload.currentChatId
             let message = action.payload.message
             
             console.log('message fetched ', message)
-            allChats[currentChatId].messages.push(message._id)
+            allChats[message.chatid].messages.push(message._id)
             allMessages[message._id] = message
             return {...state, allChats, allMessages}
         default:

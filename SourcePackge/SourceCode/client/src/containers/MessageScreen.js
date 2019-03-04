@@ -67,7 +67,7 @@ export default class MessageScreen extends Component {
 
   componentDidUpdate() {
     const store = this.props.appState
-    if (store.user.currentUser && store.chat.allChatIds.length === 0) {
+    if (store.user.currentUser && !store.chat.allChatIds) {
       store.dispatch(requestChatsOfUser(store.user.currentUser._id))
     }
 
