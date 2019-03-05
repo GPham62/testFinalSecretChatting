@@ -6,6 +6,6 @@ export default ({component: Component, exact, path, appState, isAuthenticated, .
   return (
     <Route exact={exact} path={path} render={(props) => {
         return !isAuthenticated() ? <Component appState={appState} {...props} {...rest} /> : <Redirect to='/chat'/>
-    }} />
+    }}/>
   )
 }
